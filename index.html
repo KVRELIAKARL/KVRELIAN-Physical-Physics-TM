@@ -3,150 +3,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2D Physics Sandbox with Maps</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>Physical Physics</title>
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* CSS Styles */
+        /* macOS-inspired CSS */
         body {
             margin: 0;
             padding: 0;
             overflow: hidden;
-            font-family: 'Roboto', sans-serif;
-            background: #f8f9fa;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: transparent;
         }
 
         #canvas {
             display: block;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: linear-gradient(to bottom, #e6ebf1, #d0d8e8);
         }
 
         .controls-panel {
             position: absolute;
             top: 20px;
             left: 20px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            width: 250px;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(245, 245, 247, 0.8);
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1),
+                        0 0 0 1px rgba(0, 0, 0, 0.05);
+            width: 260px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 0.5px solid rgba(255, 255, 255, 0.6);
         }
 
         .title {
-            margin: 0 0 15px 0;
-            color: #2c3e50;
-            font-size: 1.5rem;
-            font-weight: 700;
+            margin: 0 0 16px 0;
+            color: #1a1a1a;
+            font-size: 20px;
+            font-weight: 600;
             text-align: center;
+            letter-spacing: -0.2px;
         }
 
-        .tool-section {
-            margin-bottom: 15px;
+        .mode-section {
+            margin-bottom: 16px;
+            padding: 12px;
+            background: rgba(0,0,0,0.02);
+            border-radius: 8px;
+            border: 0.5px solid rgba(0,0,0,0.04);
         }
 
-        .tool-section h2 {
-            font-size: 1rem;
-            color: #7f8c8d;
-            margin-bottom: 8px;
+        .mode-section h2 {
+            font-size: 12px;
+            color: #6b6b6b;
+            margin: 0 0 8px 4px;
+            font-weight: 500;
+            letter-spacing: 0.2px;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         .button-group {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
             gap: 8px;
+            margin-bottom: 8px;
         }
 
         .tool-button {
-            padding: 8px 10px;
+            padding: 8px 12px;
             border: none;
-            border-radius: 8px;
-            font-family: 'Roboto', sans-serif;
+            border-radius: 6px;
+            font-family: inherit;
             font-weight: 500;
-            font-size: 0.9rem;
+            font-size: 13px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s ease;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: all 0.15s ease;
+            background: rgba(255, 255, 255, 0.7);
+            box-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.1),
+                        inset 0 0.5px 0 rgba(255, 255, 255, 0.5);
+            border: 0.5px solid rgba(0, 0, 0, 0.12);
+            color: #1a1a1a;
         }
 
         .tool-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1),
+                        inset 0 0.5px 0 rgba(255, 255, 255, 0.5);
+        }
+
+        .tool-button:active {
+            background: rgba(220, 220, 220, 0.7);
+            transform: translateY(1px);
         }
 
         .tool-button .icon {
             margin-right: 6px;
-            font-size: 1.1rem;
+            font-size: 14px;
         }
 
-        .box-button {
-            background-color: #3498db;
-            color: white;
-        }
-
-        .circle-button {
-            background-color: #e74c3c;
-            color: white;
-        }
-
-        .static-button {
-            background-color: #2ecc71;
-            color: white;
-        }
-
-        .delete-button {
-            background-color: #e74c3c;
-            color: white;
-        }
-
-        .clear-button {
-            background-color: #f39c12;
-            color: white;
-        }
-
-        .reset-button {
-            background-color: #9b59b6;
-            color: white;
-        }
+        /* Colored buttons */
+        .box-button { background-color: rgba(0, 122, 255, 0.1); color: #007aff; border-color: rgba(0, 122, 255, 0.2); }
+        .circle-button { background-color: rgba(255, 59, 48, 0.1); color: #ff3b30; border-color: rgba(255, 59, 48, 0.2); }
+        .static-button { background-color: rgba(52, 199, 89, 0.1); color: #34c759; border-color: rgba(52, 199, 89, 0.2); }
+        .delete-button { background-color: rgba(255, 59, 48, 0.1); color: #ff3b30; border-color: rgba(255, 59, 48, 0.2); }
+        .clear-button { background-color: rgba(255, 149, 0, 0.1); color: #ff9500; border-color: rgba(255, 149, 0, 0.2); }
+        .reset-button { background-color: rgba(175, 82, 222, 0.1); color: #af52de; border-color: rgba(175, 82, 222, 0.2); }
+        .challenge-button { background-color: rgba(90, 200, 250, 0.1); color: #0a84ff; border-color: rgba(90, 200, 250, 0.2); }
 
         .tool-button.active {
-            transform: translateY(0);
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
-            border: 2px solid rgba(255, 255, 255, 0.5);
+            background-color: rgba(0, 122, 255, 0.2);
+            color: #007aff;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         select {
             width: 100%;
-            padding: 8px;
+            padding: 8px 10px;
             border-radius: 6px;
-            border: 1px solid #ddd;
+            border: 0.5px solid rgba(0, 0, 0, 0.1);
             margin-bottom: 10px;
-            background: white;
-            font-family: 'Roboto', sans-serif;
+            background: rgba(255, 255, 255, 0.7);
+            font-family: inherit;
+            font-size: 13px;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            background-size: 14px;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #007aff;
         }
 
         .instructions {
-            margin-top: 15px;
-            font-size: 0.8rem;
-            color: #7f8c8d;
+            margin-top: 12px;
+            font-size: 12px;
+            color: #6b6b6b;
             line-height: 1.4;
+        }
+
+        .challenge-instructions {
+            background: rgba(10, 132, 255, 0.05);
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+            border-left: 3px solid #0a84ff;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .challenge-complete {
+            display: none;
+            background: rgba(52, 199, 89, 0.1);
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 10px;
             text-align: center;
+            font-size: 13px;
+            color: #34c759;
+            border: 0.5px solid rgba(52, 199, 89, 0.2);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        /* Scrollbar styling */
+        .controls-panel::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .controls-panel::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.05);
+            border-radius: 3px;
+        }
+        
+        .controls-panel::-webkit-scrollbar-thumb {
+            background: rgba(0,0,0,0.1);
+            border-radius: 3px;
+        }
+        
+        .controls-panel::-webkit-scrollbar-thumb:hover {
+            background: rgba(0,0,0,0.15);
         }
 
         @media (max-width: 600px) {
             .controls-panel {
-                width: 200px;
-                padding: 15px;
+                width: 220px;
+                padding: 12px;
             }
         
             .tool-button {
                 padding: 6px 8px;
-                font-size: 0.8rem;
+                font-size: 12px;
             }
         }
     </style>
@@ -155,52 +211,109 @@
     <canvas id="canvas"></canvas>
     
     <div class="controls-panel">
-        <h1 class="title">Physics Playground</h1>
+        <h1 class="title">Physical Physics</h1>
         
-        <div class="tool-section">
-            <h2>Map Selection</h2>
-            <select id="mapSelector">
-                <option value="empty">Empty Sandbox</option>
-                <option value="platforms">Platforms</option>
-                <option value="maze">Maze</option>
-                <option value="domino">Domino Setup</option>
-                <option value="pyramid">Pyramid</option>
-            </select>
-            <button id="resetMap" class="tool-button reset-button">
-                <span class="icon">🔄</span> Reset Map
-            </button>
-        </div>
-        
-        <div class="tool-section">
-            <h2>Create</h2>
+        <div class="mode-section">
+            <h2>Game Mode</h2>
             <div class="button-group">
-                <button id="addBox" class="tool-button box-button">
-                    <span class="icon">🟦</span> Box
+                <button id="freePlay" class="tool-button challenge-button active">
+                    <span class="icon">🎮</span> Free Play
                 </button>
-                <button id="addCircle" class="tool-button circle-button">
-                    <span class="icon">🔴</span> Circle
-                </button>
-                <button id="addStatic" class="tool-button static-button">
-                    <span class="icon">🟩</span> Static
+                <button id="challengeMode" class="tool-button challenge-button">
+                    <span class="icon">🏆</span> Challenges
                 </button>
             </div>
         </div>
         
-        <div class="tool-section">
-            <h2>Tools</h2>
-            <div class="button-group">
-                <button id="delete" class="tool-button delete-button">
-                    <span class="icon">🗑️</span> Delete
+        <div id="freePlaySection">
+            <div class="mode-section">
+                <h2>Map Selection</h2>
+                <select id="mapSelector">
+                    <option value="empty">Empty Sandbox</option>
+                    <option value="platforms">Platforms</option>
+                    <option value="maze">Maze</option>
+                    <option value="domino">Domino Setup</option>
+                    <option value="pyramid">Pyramid</option>
+                </select>
+                <button id="resetMap" class="tool-button reset-button">
+                    <span class="icon">🔄</span> Reset Map
                 </button>
-                <button id="clear" class="tool-button clear-button">
-                    <span class="icon">🧹</span> Clear All
-                </button>
+            </div>
+            
+            <div class="mode-section">
+                <h2>Create</h2>
+                <div class="button-group">
+                    <button id="addBox" class="tool-button box-button">
+                        <span class="icon">🟦</span> Box
+                    </button>
+                    <button id="addCircle" class="tool-button circle-button">
+                        <span class="icon">🔴</span> Circle
+                    </button>
+                    <button id="addStatic" class="tool-button static-button">
+                        <span class="icon">🟩</span> Static
+                    </button>
+                </div>
+            </div>
+            
+            <div class="mode-section">
+                <h2>Tools</h2>
+                <div class="button-group">
+                    <button id="delete" class="tool-button delete-button">
+                        <span class="icon">🗑️</span> Delete
+                    </button>
+                    <button id="clear" class="tool-button clear-button">
+                        <span class="icon">🧹</span> Clear All
+                    </button>
+                </div>
+            </div>
+            
+            <div class="instructions">
+                <p><strong>Free Play Mode:</strong></p>
+                <p>• Select a map from the dropdown</p>
+                <p>• Click to add objects</p>
+                <p>• In delete mode, click objects to remove</p>
             </div>
         </div>
         
-        <div class="instructions">
-            <p>Select a map from the dropdown</p>
-            <p>Click to add objects, or delete in delete mode</p>
+        <div id="challengeSection" style="display: none;">
+            <div class="mode-section">
+                <h2>Challenge</h2>
+                <select id="challengeSelector">
+                    <option value="bridge">Build a Bridge</option>
+                    <option value="tower">Build a Tall Tower</option>
+                    <option value="ramp">Create a Ramp</option>
+                    <option value="balanced">Balanced Structure</option>
+                </select>
+                <button id="startChallenge" class="tool-button challenge-button">
+                    <span class="icon">🚀</span> Start Challenge
+                </button>
+            </div>
+            
+            <div id="challengeInfo" class="challenge-instructions">
+                <p>Select a challenge and click "Start Challenge"</p>
+            </div>
+            
+            <div id="challengeComplete" class="challenge-complete">
+                <p>🎉 Challenge Complete! 🎉</p>
+            </div>
+            
+            <div class="mode-section">
+                <h2>Tools</h2>
+                <div class="button-group">
+                    <button id="challengeAddBox" class="tool-button box-button">
+                        <span class="icon">🟦</span> Box
+                    </button>
+                    <button id="challengeAddCircle" class="tool-button circle-button">
+                        <span class="icon">🔴</span> Circle
+                    </button>
+                    <button id="challengeDelete" class="tool-button delete-button">
+                        <span class="icon">🗑️</span> Delete
+                    </button>
+                </div>
+                <button id="resetChallenge" class="tool-button reset-button" style="width: 100%; margin-top: 5px;">
+                    <span class="icon">🔄</span> Reset Challenge
+                </button>
+            </div>
         </div>
     </div>
 
@@ -215,15 +328,18 @@
                   Bodies = Matter.Bodies,
                   Composite = Matter.Composite,
                   Mouse = Matter.Mouse,
-                  MouseConstraint = Matter.MouseConstraint;
+                  MouseConstraint = Matter.MouseConstraint,
+                  Events = Matter.Events;
 
             // Create engine
-            const engine = Engine.create();
+            const engine = Matter.Engine.create({
+                gravity: { x: 0, y: 1 }
+            });
             const world = engine.world;
 
             // Create renderer
             const canvas = document.getElementById('canvas');
-            const render = Render.create({
+            const render = Matter.Render.create({
                 canvas: canvas,
                 engine: engine,
                 options: {
@@ -250,16 +366,21 @@
 
             // Keep track of all created bodies
             let bodies = [];
-            let currentMap = null;
             let mapObjects = [];
+            let currentMap = null;
+            let currentChallenge = null;
+            let challengeActive = false;
+            let challengeTarget = null;
+            let challengeStartTime = null;
 
             // Colors for different object types
             const colors = {
-                box: '#3498db',
-                circle: '#e74c3c',
-                static: '#2ecc71',
-                ground: '#555555',
-                platform: '#8e44ad'
+                box: '#007aff',
+                circle: '#ff3b30',
+                static: '#34c759',
+                ground: '#636366',
+                platform: '#af52de',
+                target: '#ff9500'
             };
 
             // Create ground and walls
@@ -299,6 +420,7 @@
                 Composite.add(world, mouseConstraint);
                 bodies = [];
                 mapObjects = [];
+                hideChallengeComplete();
             }
 
             // Prebuilt maps
@@ -347,7 +469,7 @@
                     
                     // Maze walls
                     const wallThickness = 15;
-                    const wallColor = '#34495e';
+                    const wallColor = '#48484a';
                     
                     // Horizontal walls
                     const hWalls = [
@@ -405,7 +527,7 @@
                             startY - dominoHeight/2,
                             dominoWidth,
                             dominoHeight,
-                            { restitution: 0.6, render: { fillStyle: '#e74c3c' } }
+                            { restitution: 0.6, render: { fillStyle: '#ff3b30' } }
                         ));
                     }
                     
@@ -414,7 +536,7 @@
                         startX - 50,
                         startY - 100,
                         20,
-                        { restitution: 0.8, render: { fillStyle: '#3498db' } }
+                        { restitution: 0.8, render: { fillStyle: '#007aff' } }
                     );
                     
                     Composite.add(world, [...dominos, starterBall]);
@@ -441,13 +563,272 @@
                             const x = startX + (col - cols/2 + 0.5) * boxSize;
                             boxes.push(Bodies.rectangle(
                                 x, y, boxSize, boxSize,
-                                { restitution: 0.2, render: { fillStyle: '#f1c40f' } }
+                                { restitution: 0.2, render: { fillStyle: '#ff9500' } }
                             ));
                         }
                     }
                     
                     Composite.add(world, boxes);
                     bodies.push(...boxes);
+                }
+            };
+
+            // Challenge definitions
+            const challenges = {
+                bridge: {
+                    name: "Build a Bridge",
+                    instructions: "Build a bridge between the two platforms that can support the target ball for 5 seconds.",
+                    setup: function() {
+                        clearWorld();
+                        
+                        // Create two platforms with a gap
+                        const leftPlatform = Bodies.rectangle(
+                            window.innerWidth * 0.3,
+                            window.innerHeight * 0.6,
+                            window.innerWidth * 0.2,
+                            20,
+                            { isStatic: true, render: { fillStyle: colors.platform } }
+                        );
+                        
+                        const rightPlatform = Bodies.rectangle(
+                            window.innerWidth * 0.7,
+                            window.innerHeight * 0.6,
+                            window.innerWidth * 0.2,
+                            20,
+                            { isStatic: true, render: { fillStyle: colors.platform } }
+                        );
+                        
+                        // Create target ball (initially hidden)
+                        const target = Bodies.circle(
+                            window.innerWidth * 0.5,
+                            window.innerHeight * 0.4,
+                            20,
+                            { 
+                                isStatic: true,
+                                isSensor: true,
+                                render: { 
+                                    fillStyle: colors.target,
+                                    visible: false
+                                } 
+                            }
+                        );
+                        
+                        Composite.add(world, [leftPlatform, rightPlatform, target]);
+                        mapObjects.push(leftPlatform, rightPlatform);
+                        challengeTarget = target;
+                        
+                        // Update challenge info
+                        document.getElementById('challengeInfo').innerHTML = `
+                            <p><strong>Challenge:</strong> Build a bridge between the two platforms</p>
+                            <p>• Use boxes to create a stable bridge</p>
+                            <p>• The bridge must support the target ball</p>
+                            <p>• You win when the ball stays on the bridge for 5 seconds</p>
+                        `;
+                        
+                        return target;
+                    },
+                    checkComplete: function() {
+                        // Check if target is supported by player-built objects
+                        const collisions = Matter.Query.collides(challengeTarget, bodies);
+                        return collisions.length > 0;
+                    }
+                },
+                
+                tower: {
+                    name: "Build a Tall Tower",
+                    instructions: "Build a tower at least 5 blocks tall that stands for 5 seconds without falling.",
+                    setup: function() {
+                        clearWorld();
+                        
+                        // Create base platform
+                        const platform = Bodies.rectangle(
+                            window.innerWidth * 0.5,
+                            window.innerHeight - 50,
+                            window.innerWidth * 0.3,
+                            20,
+                            { isStatic: true, render: { fillStyle: colors.platform } }
+                        );
+                        
+                        // Create target zone (invisible)
+                        const targetZone = Bodies.rectangle(
+                            window.innerWidth * 0.5,
+                            window.innerHeight * 0.5,
+                            50,
+                            10,
+                            { 
+                                isStatic: true,
+                                isSensor: true,
+                                render: { visible: false }
+                            }
+                        );
+                        
+                        Composite.add(world, [platform, targetZone]);
+                        mapObjects.push(platform);
+                        challengeTarget = targetZone;
+                        
+                        document.getElementById('challengeInfo').innerHTML = `
+                            <p><strong>Challenge:</strong> Build a tower at least 5 blocks tall</p>
+                            <p>• Stack blocks vertically</p>
+                            <p>• The tower must reach the target line</p>
+                            <p>• It must stand for 5 seconds without falling</p>
+                        `;
+                        
+                        return targetZone;
+                    },
+                    checkComplete: function() {
+                        // Check if any block is touching the target zone
+                        for (let body of bodies) {
+                            const collisions = Matter.Query.collides(body, [challengeTarget]);
+                            if (collisions.length > 0) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+                },
+                
+                ramp: {
+                    name: "Create a Ramp",
+                    instructions: "Build a ramp that can launch the ball into the target zone.",
+                    setup: function() {
+                        clearWorld();
+                        
+                        // Create starting platform
+                        const platform = Bodies.rectangle(
+                            window.innerWidth * 0.3,
+                            window.innerHeight - 50,
+                            window.innerWidth * 0.2,
+                            20,
+                            { isStatic: true, render: { fillStyle: colors.platform } }
+                        );
+                        
+                        // Create target zone
+                        const targetZone = Bodies.rectangle(
+                            window.innerWidth * 0.8,
+                            window.innerHeight * 0.3,
+                            60,
+                            60,
+                            { 
+                                isStatic: true,
+                                isSensor: true,
+                                render: { 
+                                    fillStyle: colors.target,
+                                    opacity: 0.5
+                                } 
+                            }
+                        );
+                        
+                        // Create ball (initially static)
+                        const ball = Bodies.circle(
+                            window.innerWidth * 0.3,
+                            window.innerHeight - 80,
+                            15,
+                            { 
+                                isStatic: true,
+                                render: { fillStyle: '#ff3b30' }
+                            }
+                        );
+                        
+                        Composite.add(world, [platform, targetZone, ball]);
+                        mapObjects.push(platform, targetZone, ball);
+                        challengeTarget = ball;
+                        
+                        document.getElementById('challengeInfo').innerHTML = `
+                            <p><strong>Challenge:</strong> Build a ramp to launch the ball</p>
+                            <p>• Create an inclined structure</p>
+                            <p>• When ready, click the ball to release it</p>
+                            <p>• The ball must land in the target zone</p>
+                        `;
+                        
+                        return ball;
+                    },
+                    checkComplete: function() {
+                        // Check if ball is in target zone
+                        const collisions = Matter.Query.collides(challengeTarget, mapObjects.filter(obj => obj.render.fillStyle === colors.target));
+                        return collisions.length > 0;
+                    }
+                },
+                
+                balanced: {
+                    name: "Balanced Structure",
+                    instructions: "Build a structure that balances the seesaw for 5 seconds.",
+                    setup: function() {
+                        clearWorld();
+                        
+                        // Create seesaw base
+                        const base = Bodies.rectangle(
+                            window.innerWidth * 0.5,
+                            window.innerHeight - 20,
+                            40,
+                            40,
+                            { isStatic: true, render: { fillStyle: colors.ground } }
+                        );
+                        
+                        // Create seesaw plank
+                        const plank = Bodies.rectangle(
+                            window.innerWidth * 0.5,
+                            window.innerHeight - 60,
+                            200,
+                            10,
+                            { 
+                                friction: 0.1,
+                                restitution: 0.3,
+                                render: { fillStyle: '#636366' }
+                            }
+                        );
+                        
+                        // Constrain the plank to the base
+                        const constraint = Matter.Constraint.create({
+                            pointA: { x: window.innerWidth * 0.5, y: window.innerHeight - 40 },
+                            bodyB: plank,
+                            pointB: { x: 0, y: 0 },
+                            stiffness: 1,
+                            render: { visible: false }
+                        });
+                        
+                        // Create target zones on each side
+                        const leftTarget = Bodies.rectangle(
+                            window.innerWidth * 0.3,
+                            window.innerHeight - 100,
+                            30,
+                            10,
+                            { 
+                                isStatic: true,
+                                isSensor: true,
+                                render: { visible: false }
+                            }
+                        );
+                        
+                        const rightTarget = Bodies.rectangle(
+                            window.innerWidth * 0.7,
+                            window.innerHeight - 100,
+                            30,
+                            10,
+                            { 
+                                isStatic: true,
+                                isSensor: true,
+                                render: { visible: false }
+                            }
+                        );
+                        
+                        Composite.add(world, [base, plank, constraint, leftTarget, rightTarget]);
+                        mapObjects.push(base, plank, constraint);
+                        challengeTarget = { left: leftTarget, right: rightTarget, plank: plank };
+                        
+                        document.getElementById('challengeInfo').innerHTML = `
+                            <p><strong>Challenge:</strong> Balance the seesaw</p>
+                            <p>• Add weights to both sides of the plank</p>
+                            <p>• The plank must stay nearly horizontal</p>
+                            <p>• It must remain balanced for 5 seconds</p>
+                        `;
+                        
+                        return challengeTarget;
+                    },
+                    checkComplete: function() {
+                        // Check if plank is nearly horizontal (within 5 degrees)
+                        const angle = Math.abs(challengeTarget.plank.angle % (Math.PI * 2));
+                        return angle < 0.087 || angle > (Math.PI * 2 - 0.087); // ~5 degrees
+                    }
                 }
             };
 
@@ -472,8 +853,118 @@
 
             // Game modes
             let currentMode = 'addBox';
+            let gameMode = 'freePlay'; // 'freePlay' or 'challenge'
+            let challengeTimer = null;
+            let successTimer = null;
 
-            // Event listeners for buttons
+            // Switch between free play and challenge modes
+            function setGameMode(mode) {
+                gameMode = mode;
+                if (mode === 'freePlay') {
+                    document.getElementById('freePlaySection').style.display = 'block';
+                    document.getElementById('challengeSection').style.display = 'none';
+                    document.getElementById('freePlay').classList.add('active');
+                    document.getElementById('challengeMode').classList.remove('active');
+                    clearWorld();
+                    maps.empty();
+                    hideChallengeComplete();
+                } else {
+                    document.getElementById('freePlaySection').style.display = 'none';
+                    document.getElementById('challengeSection').style.display = 'block';
+                    document.getElementById('freePlay').classList.remove('active');
+                    document.getElementById('challengeMode').classList.add('active');
+                    clearWorld();
+                    hideChallengeComplete();
+                }
+            }
+
+            // Show challenge completion message
+            function showChallengeComplete() {
+                const completeDiv = document.getElementById('challengeComplete');
+                completeDiv.style.display = 'block';
+                completeDiv.innerHTML = `
+                    <p>🎉 Challenge Complete! 🎉</p>
+                    <p>Time: ${((Date.now() - challengeStartTime)/1000).toFixed(1)}s</p>
+                `;
+            }
+
+            function hideChallengeComplete() {
+                document.getElementById('challengeComplete').style.display = 'none';
+            }
+
+            // Start a challenge
+            function startChallenge() {
+                const challengeName = document.getElementById('challengeSelector').value;
+                if (challenges[challengeName]) {
+                    currentChallenge = challengeName;
+                    challengeActive = true;
+                    challengeTarget = challenges[challengeName].setup();
+                    challengeStartTime = Date.now();
+                    hideChallengeComplete();
+                    
+                    // For ramp challenge, make ball clickable
+                    if (challengeName === 'ramp') {
+                        challengeTarget.render.visible = true;
+                        challengeTarget.isStatic = true;
+                    }
+                    
+                    // Start checking for completion
+                    if (challengeTimer) clearInterval(challengeTimer);
+                    challengeTimer = setInterval(checkChallengeProgress, 500);
+                }
+            }
+
+            // Check challenge progress
+            function checkChallengeProgress() {
+                if (!challengeActive || !currentChallenge) return;
+                
+                if (challenges[currentChallenge].checkComplete()) {
+                    if (!successTimer) {
+                        successTimer = setTimeout(() => {
+                            if (challenges[currentChallenge].checkComplete()) {
+                                challengeComplete();
+                            } else {
+                                clearTimeout(successTimer);
+                                successTimer = null;
+                            }
+                        }, 5000); // Need to maintain for 5 seconds
+                    }
+                } else {
+                    if (successTimer) {
+                        clearTimeout(successTimer);
+                        successTimer = null;
+                    }
+                }
+            }
+
+            // Challenge completed successfully
+            function challengeComplete() {
+                challengeActive = false;
+                clearInterval(challengeTimer);
+                clearTimeout(successTimer);
+                showChallengeComplete();
+            }
+
+            // Reset current challenge
+            function resetChallenge() {
+                if (currentChallenge) {
+                    challengeActive = false;
+                    clearInterval(challengeTimer);
+                    clearTimeout(successTimer);
+                    challenges[currentChallenge].setup();
+                    hideChallengeComplete();
+                }
+            }
+
+            // Event listeners
+            document.getElementById('freePlay').addEventListener('click', function() {
+                setGameMode('freePlay');
+            });
+            
+            document.getElementById('challengeMode').addEventListener('click', function() {
+                setGameMode('challenge');
+            });
+            
             document.getElementById('addBox').addEventListener('click', function() {
                 currentMode = 'addBox';
                 updateButtonStates();
@@ -513,16 +1004,68 @@
                     maps[mapName]();
                 }
             });
+            
+            // Challenge mode controls
+            document.getElementById('challengeAddBox').addEventListener('click', function() {
+                currentMode = 'addBox';
+                updateButtonStates();
+            });
+            
+            document.getElementById('challengeAddCircle').addEventListener('click', function() {
+                currentMode = 'addCircle';
+                updateButtonStates();
+            });
+            
+            document.getElementById('challengeDelete').addEventListener('click', function() {
+                currentMode = 'delete';
+                updateButtonStates();
+            });
+            
+            document.getElementById('startChallenge').addEventListener('click', startChallenge);
+            document.getElementById('resetChallenge').addEventListener('click', resetChallenge);
+            
+            document.getElementById('challengeSelector').addEventListener('change', function() {
+                hideChallengeComplete();
+            });
+
+            // For ramp challenge - click to release ball
+            render.canvas.addEventListener('mousedown', function(event) {
+                if (gameMode === 'challenge' && currentChallenge === 'ramp' && challengeActive) {
+                    const mousePosition = mouse.position;
+                    const bodiesUnderMouse = Matter.Query.point([challengeTarget], mousePosition);
+                    
+                    if (bodiesUnderMouse.length > 0) {
+                        Matter.Body.setStatic(challengeTarget, false);
+                    }
+                }
+            });
 
             // Update button active states
             function updateButtonStates() {
                 const buttons = ['addBox', 'addCircle', 'addStatic', 'delete'];
                 buttons.forEach(btn => {
                     const element = document.getElementById(btn);
-                    if (btn === currentMode || (btn === 'delete' && currentMode === 'delete')) {
-                        element.classList.add('active');
-                    } else {
-                        element.classList.remove('active');
+                    if (element) {
+                        if (btn === currentMode || (btn === 'delete' && currentMode === 'delete')) {
+                            element.classList.add('active');
+                        } else {
+                            element.classList.remove('active');
+                        }
+                    }
+                });
+                
+                // Update challenge buttons
+                const challengeButtons = ['challengeAddBox', 'challengeAddCircle', 'challengeDelete'];
+                challengeButtons.forEach(btn => {
+                    const element = document.getElementById(btn);
+                    if (element) {
+                        if ((btn === 'challengeAddBox' && currentMode === 'addBox') || 
+                            (btn === 'challengeAddCircle' && currentMode === 'addCircle') ||
+                            (btn === 'challengeDelete' && currentMode === 'delete')) {
+                            element.classList.add('active');
+                        } else {
+                            element.classList.remove('active');
+                        }
                     }
                 });
             }
@@ -531,6 +1074,7 @@
             // Add objects on click
             render.canvas.addEventListener('mousedown', function(event) {
                 if (currentMode === 'delete') return;
+                if (gameMode === 'challenge' && !challengeActive) return;
                 
                 const mousePosition = mouse.position;
                 
@@ -586,6 +1130,7 @@
             // Delete objects on click in delete mode
             render.canvas.addEventListener('mousedown', function(event) {
                 if (currentMode !== 'delete') return;
+                if (gameMode === 'challenge' && !challengeActive) return;
                 
                 const mousePosition = mouse.position;
                 // Only allow deleting non-map objects
@@ -600,6 +1145,9 @@
                     }
                 }
             });
+
+            // Initialize in free play mode
+            setGameMode('freePlay');
         });
     </script>
 </body>
