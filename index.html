@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2D Physics Sandbox</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Roboto', sans-serif;
+            background: #f8f9fa;
+        }
+
+        #canvas {
+            display: block;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .controls-panel {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 220px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .title {
+            margin: 0 0 15px 0;
+            color: #2c3e50;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .tool-section {
+            margin-bottom: 20px;
+        }
+
+        .tool-section h2 {
+            font-size: 1rem;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .tool-button {
+            padding: 10px 12px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .tool-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .tool-button .icon {
+            margin-right: 6px;
+            font-size: 1.1rem;
+        }
+
+        .box-button {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .circle-button {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .static-button {
+            background-color: #2ecc71;
+            color: white;
+        }
+
+        .delete-button {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .clear-button {
+            background-color: #f39c12;
+            color: white;
+        }
+
+        .tool-button.active {
+            transform: translateY(0);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .instructions {
+            margin-top: 20px;
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            line-height: 1.4;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .controls-panel {
+                width: 180px;
+                padding: 15px;
+            }
+        
+            .tool-button {
+                padding: 8px 10px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    
+    <div class="controls-panel">
+        <h1 class="title">Physics Playground</h1>
+        
+        <div class="tool-section">
+            <h2>Create</h2>
+            <div class="button-group">
+                <button id="addBox" class="tool-button box-button">
+                    <span class="icon">🟦</span> Box
+                </button>
+                <button id="addCircle" class="tool-button circle-button">
+                    <span class="icon">🔴</span> Circle
+                </button>
+                <button id="addStatic" class="tool-button static-button">
+                    <span class="icon">🟩</span> Static
+                </button>
+            </div>
+        </div>
+        
+        <div class="tool-section">
+            <h2>Tools</h2>
+            <div class="button-group">
+                <button id="delete" class="tool-button delete-button">
+                    <span class="icon">🗑️</span> Delete
+                </button>
+                <button id="clear" class="tool-button clear-button">
+                    <span class="icon">🧹</span> Clear All
+                </button>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <p>Click anywhere to add objects</p>
+            <p>In delete mode, click objects to remove</p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.18.0/matter.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Module aliases
+            const Engine = Matter.Engine,
+                  Render = Matter.Render,
+                  Runner = Matter.Runner,
+                  Bodies = Matter.Bodies,
+                  Composite = Matter.Composite,
+                  Mouse = Matter.Mouse,
+                  MouseConstraint = Matter.MouseConstraint;
+
+            // Create engine
+            const engine = Engine.create();
+            const world = engine.world;
+
+            // Create renderer
+            const canvas = document.getElementById('canvas');
+            const render = Render.create({
+                canvas: canvas,
+                engine: engine,
+                options: {
+                    width: window.innerWidth,
+                    height: window.innerHeight,
+                    wireframes: false,
+                    background: '#f0f0f0'
+                }
+            });
+
+            // Fit canvas to window
+            function resizeCanvas() {
+                render.options.width = window.innerWidth;
+                render.options.height = window.innerHeight;
+                Render.setPixelRatio(render, window.devicePixelRatio);
+            }
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+            // Start the engine and renderer
+            Render.run(render);
+            const runner = Runner.create();
+            Runner.run(runner, engine);
+
+            // Create ground
+            const ground = Bodies.rectangle(
+                window.innerWidth / 2, 
+                window.innerHeight - 10, 
+                window.innerWidth, 
+                20, 
+                { isStatic: true, render: { fillStyle: '#555555' } }
+            );
+
+            // Create walls
+            const leftWall = Bodies.rectangle(
+                0, 
+                window.innerHeight / 2, 
+                20, 
+                window.innerHeight, 
+                { isStatic: true, render: { fillStyle: '#555555' } }
+            );
+            const rightWall = Bodies.rectangle(
+                window.innerWidth, 
+                window.innerHeight / 2, 
+                20, 
+                window.innerHeight, 
+                { isStatic: true, render: { fillStyle: '#555555' } }
+            );
+
+            // Add all bodies to the world
+            Composite.add(world, [ground, leftWall, rightWall]);
+
+            // Mouse control
+            const mouse = Mouse.create(render.canvas);
+            const mouseConstraint = MouseConstraint.create(engine, {
+                mouse: mouse,
+                constraint: {
+                    stiffness: 0.2,
+                    render: {
+                        visible: false
+                    }
+                }
+            });
+            Composite.add(world, mouseConstraint);
+            render.mouse = mouse;
+
+            // Keep track of all created bodies
+            const bodies = [];
+            
+            // Game modes
+            let currentMode = 'addBox';
+            
+            // Colors for different object types
+            const colors = {
+                box: '#3498db',
+                circle: '#e74c3c',
+                static: '#2ecc71'
+            };
+
+            // Event listeners for buttons
+            document.getElementById('addBox').addEventListener('click', function() {
+                currentMode = 'addBox';
+                updateButtonStates();
+            });
+            
+            document.getElementById('addCircle').addEventListener('click', function() {
+                currentMode = 'addCircle';
+                updateButtonStates();
+            });
+            
+            document.getElementById('addStatic').addEventListener('click', function() {
+                currentMode = 'addStatic';
+                updateButtonStates();
+            });
+            
+            document.getElementById('delete').addEventListener('click', function() {
+                currentMode = 'delete';
+                updateButtonStates();
+            });
+            
+            document.getElementById('clear').addEventListener('click', function() {
+                // Remove all bodies except ground and walls
+                Composite.clear(world, false);
+                Composite.add(world, [ground, leftWall, rightWall, mouseConstraint]);
+                bodies.length = 0;
+            });
+
+            // Update button active states
+            function updateButtonStates() {
+                const buttons = ['addBox', 'addCircle', 'addStatic', 'delete'];
+                buttons.forEach(btn => {
+                    const element = document.getElementById(btn);
+                    if (btn === currentMode || (btn === 'delete' && currentMode === 'delete')) {
+                        element.classList.add('active');
+                    } else {
+                        element.classList.remove('active');
+                    }
+                });
+            }
+            updateButtonStates();
+
+            // Add objects on click
+            render.canvas.addEventListener('mousedown', function(event) {
+                if (currentMode === 'delete') return;
+                
+                const mousePosition = mouse.position;
+                
+                let newBody;
+                const size = Math.random() * 30 + 20;
+                
+                switch(currentMode) {
+                    case 'addBox':
+                        newBody = Bodies.rectangle(
+                            mousePosition.x, 
+                            mousePosition.y, 
+                            size, 
+                            size, 
+                            { 
+                                restitution: 0.5,
+                                render: { fillStyle: colors.box }
+                            }
+                        );
+                        break;
+                        
+                    case 'addCircle':
+                        newBody = Bodies.circle(
+                            mousePosition.x, 
+                            mousePosition.y, 
+                            size / 2, 
+                            { 
+                                restitution: 0.7,
+                                render: { fillStyle: colors.circle }
+                            }
+                        );
+                        break;
+                        
+                    case 'addStatic':
+                        newBody = Bodies.rectangle(
+                            mousePosition.x, 
+                            mousePosition.y, 
+                            size, 
+                            size, 
+                            { 
+                                isStatic: true,
+                                render: { fillStyle: colors.static }
+                            }
+                        );
+                        break;
+                }
+                
+                if (newBody) {
+                    Composite.add(world, newBody);
+                    bodies.push(newBody);
+                }
+            });
+
+            // Delete objects on click in delete mode
+            render.canvas.addEventListener('mousedown', function(event) {
+                if (currentMode !== 'delete') return;
+                
+                const mousePosition = mouse.position;
+                const bodiesUnderMouse = Matter.Query.point(bodies, mousePosition);
+                
+                if (bodiesUnderMouse.length > 0) {
+                    Composite.remove(world, bodiesUnderMouse[0]);
+                    // Remove from our bodies array
+                    const index = bodies.indexOf(bodiesUnderMouse[0]);
+                    if (index > -1) {
+                        bodies.splice(index, 1);
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
