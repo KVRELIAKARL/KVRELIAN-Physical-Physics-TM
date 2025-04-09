@@ -493,8 +493,8 @@
             width: 100%;
         }
 
-        /* Roulette System - Enhanced */
-        .roulette-container {
+        /* Blackjack System - Replaces Roulette */
+        .blackjack-container {
             position: fixed;
             top: 0;
             left: 0;
@@ -508,113 +508,120 @@
             z-index: 2000;
         }
 
-        .roulette-wheel {
-            width: 320px;
-            height: 320px;
-            border-radius: 50%;
-            background: #1c1c1e;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 8px solid #2c2c2e;
-        }
-
-        .roulette-center {
-            width: 70px;
-            height: 70px;
-            background: white;
-            border-radius: 50%;
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-            transition: transform 0.2s;
-            font-size: 18px;
-            color: #1c1c1e;
-        }
-
-        .roulette-center:hover {
-            transform: scale(1.05);
-        }
-
-        .roulette-center:active {
-            transform: scale(0.95);
-        }
-
-        .roulette-section {
-            position: absolute;
-            width: 50%;
-            height: 50%;
-            transform-origin: bottom right;
-            left: 0;
-            top: 0;
-            clip-path: polygon(0 0, 100% 0, 100% 100%);
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            padding-bottom: 30px;
-            box-sizing: border-box;
-            color: white;
-            font-weight: bold;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
-            font-size: 14px;
-            transition: filter 0.3s;
-        }
-
-        .roulette-section.highlight {
-            filter: brightness(1.3);
-        }
-
-        .roulette-pointer {
-            position: absolute;
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 20px solid transparent;
-            border-right: 20px solid transparent;
-            border-top: 40px solid #FF3B30;
-            z-index: 5;
-            filter: drop-shadow(0 0 5px rgba(255, 59, 48, 0.7));
-        }
-
-        .roulette-result {
-            margin-top: 30px;
-            background: white;
-            padding: 20px;
+        .blackjack-table {
+            width: 90%;
+            max-width: 500px;
+            background: #1a5e1a;
             border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            color: white;
             text-align: center;
-            max-width: 80%;
-            display: none;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            animation: fadeIn 0.5s;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .blackjack-header {
+            margin-bottom: 20px;
         }
 
-        .roulette-result h3 {
+        .blackjack-header h2 {
+            font-size: 24px;
             margin-bottom: 10px;
-            color: #1c1c1e;
-            font-size: 20px;
         }
 
-        .roulette-result p {
-            color: #636366;
-            margin-bottom: 15px;
+        .blackjack-header p {
+            color: #ccc;
+        }
+
+        .blackjack-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .blackjack-btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
             font-size: 16px;
         }
 
-        .roulette-result button {
+        .blackjack-btn.hit {
+            background: #007AFF;
+            color: white;
+        }
+
+        .blackjack-btn.stand {
+            background: #FF3B30;
+            color: white;
+        }
+
+        .blackjack-btn.bet {
+            background: #FF9500;
+            color: white;
+        }
+
+        .blackjack-btn:hover {
+            opacity: 0.9;
+        }
+
+        .blackjack-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .blackjack-cards {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            min-height: 120px;
+        }
+
+        .blackjack-card {
+            width: 80px;
+            height: 120px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: black;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .blackjack-card.red {
+            color: #FF3B30;
+        }
+
+        .blackjack-score {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .blackjack-result {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            display: none;
+        }
+
+        .blackjack-result h3 {
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .blackjack-result p {
+            margin-bottom: 15px;
+        }
+
+        .blackjack-result button {
             padding: 10px 20px;
             background: #007AFF;
             color: white;
@@ -622,12 +629,52 @@
             border-radius: 6px;
             font-weight: 500;
             cursor: pointer;
-            transition: background 0.2s;
-            font-size: 16px;
         }
 
-        .roulette-result button:hover {
-            background: #0066CC;
+        .blackjack-balance {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .blackjack-balance-amount {
+            font-weight: 600;
+            color: #FFD700;
+        }
+
+        .blackjack-bet-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .blackjack-bet-btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        .blackjack-bet-btn.active {
+            background: #007AFF;
+        }
+
+        .blackjack-close {
+            margin-top: 20px;
+        }
+
+        .blackjack-close button {
+            padding: 10px 20px;
+            background: #636366;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
         }
 
         /* Loot Box System */
@@ -1057,9 +1104,15 @@
                 height: 300px;
             }
 
-            .roulette-wheel {
-                width: 280px;
-                height: 280px;
+            .blackjack-table {
+                width: 95%;
+                padding: 15px;
+            }
+
+            .blackjack-card {
+                width: 60px;
+                height: 90px;
+                font-size: 18px;
             }
 
             .lootbox {
@@ -1180,7 +1233,7 @@
                         </div>
                         <div class="tutorial-step">
                             <div class="tutorial-icon">5</div>
-                            <div class="tutorial-text" id="tutorialStep5">Use the menu button to access the roulette and shop</div>
+                            <div class="tutorial-text" id="tutorialStep5">Use the menu button to access the blackjack and shop</div>
                         </div>
                     </div>
                 </div>
@@ -1213,7 +1266,7 @@
 
     <div class="menu-button" id="menuButton">≡</div>
     <div class="menu-options" id="menuOptions" style="display: none; position: fixed; top: 110px; left: 20px; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px); border-radius: 12px; padding: 12px; z-index: 1000; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1); display: none; flex-direction: column; gap: 8px; width: 200px; max-height: 70vh; overflow-y: auto;">
-        <div class="menu-option" id="rouletteBtn">🎰 Roulette</div>
+        <div class="menu-option" id="blackjackBtn">🃏 Blackjack</div>
         <div class="menu-option" id="lootboxBtn">🎁 Loot Box</div>
         <div class="menu-option" id="shopBtn">🛒 Shop</div>
     </div>
@@ -1241,16 +1294,49 @@
         <button class="edit-btn" id="cancelEditBtn">✕</button>
     </div>
 
-    <!-- Roulette System -->
-    <div class="roulette-container" id="rouletteContainer">
-        <div class="roulette-wheel" id="rouletteWheel">
-            <div class="roulette-pointer"></div>
-            <div class="roulette-center" id="spinRoulette">SPIN</div>
-        </div>
-        <div class="roulette-result" id="rouletteResult">
-            <h3 id="rouletteResultTitle">You won!</h3>
-            <p id="rouletteResultText">100 points</p>
-            <button id="rouletteCloseBtn">Close</button>
+    <!-- Blackjack System -->
+    <div class="blackjack-container" id="blackjackContainer">
+        <div class="blackjack-table">
+            <div class="blackjack-header">
+                <h2>Blackjack</h2>
+                <p>Try to get as close to 21 without going over</p>
+            </div>
+            
+            <div class="blackjack-balance">
+                <div>Your Balance:</div>
+                <div class="blackjack-balance-amount" id="blackjackBalance">0 ¥</div>
+            </div>
+            
+            <div class="blackjack-bet-controls" id="blackjackBetControls">
+                <button class="blackjack-bet-btn" data-bet="10">10 ¥</button>
+                <button class="blackjack-bet-btn" data-bet="25">25 ¥</button>
+                <button class="blackjack-bet-btn" data-bet="50">50 ¥</button>
+                <button class="blackjack-bet-btn" data-bet="100">100 ¥</button>
+            </div>
+            
+            <div class="blackjack-cards" id="dealerCards">
+                <div class="blackjack-card">?</div>
+            </div>
+            <div class="blackjack-score" id="dealerScore">Dealer: ?</div>
+            
+            <div class="blackjack-cards" id="playerCards"></div>
+            <div class="blackjack-score" id="playerScore">Player: 0</div>
+            
+            <div class="blackjack-buttons" id="gameButtons">
+                <button class="blackjack-btn hit" id="hitBtn">Hit</button>
+                <button class="blackjack-btn stand" id="standBtn">Stand</button>
+                <button class="blackjack-btn bet" id="betBtn">Place Bet</button>
+            </div>
+            
+            <div class="blackjack-result" id="blackjackResult">
+                <h3 id="blackjackResultTitle">Result</h3>
+                <p id="blackjackResultText"></p>
+                <button id="blackjackPlayAgainBtn">Play Again</button>
+            </div>
+            
+            <div class="blackjack-close">
+                <button id="blackjackCloseBtn">Close</button>
+            </div>
         </div>
     </div>
 
@@ -1271,14 +1357,14 @@
         <div class="shop-window">
             <div class="shop-header">
                 <h2>Shape Shop</h2>
-                <p>Spend your yuan to unlock new shapes</p>
+                <p>Spend your ¥ to unlock new shapes</p>
             </div>
             <div class="shop-items" id="shopItems">
                 <!-- Items will be added dynamically -->
             </div>
             <div class="shop-balance">
                 <div>Your Balance:</div>
-                <div class="shop-balance-amount" id="shopBalance">0 yuan</div>
+                <div class="shop-balance-amount" id="shopBalance">0 ¥</div>
             </div>
             <div class="shop-close">
                 <button id="shopCloseBtn">Close</button>
@@ -1337,6 +1423,15 @@
             circle: 'default',
             triangle: 'default',
             hexagon: 'default'
+        };
+
+        // Blackjack game state
+        let blackjackGame = {
+            deck: [],
+            dealerHand: [],
+            playerHand: [],
+            currentBet: 0,
+            gameState: 'betting' // 'betting', 'playing', 'ended'
         };
 
         // Mobile detection
@@ -1408,7 +1503,7 @@
                 step2: "Tap anywhere on the canvas to place your selected shape",
                 step3: "Long-press on objects to enter edit mode",
                 step4: "Select the trash icon to delete objects by tapping on them",
-                step5: "Use the menu button to access the roulette and shop",
+                step5: "Use the menu button to access the blackjack and shop",
                 skip: "Skip",
                 continue: "Continue",
                 loading: "Loading Physical Physics",
@@ -1427,17 +1522,23 @@
                 sceneSaved: "Scene saved successfully!",
                 sceneLoaded: "Scene loaded successfully!",
                 loadError: "Error loading scene",
-                rouletteTitle: "Roulette",
+                blackjackTitle: "Blackjack",
                 lootboxTitle: "Loot Box",
                 shopTitle: "Shape Shop",
                 shopBalance: "Your Balance:",
                 shopClose: "Close",
-                spin: "SPIN",
-                open: "OPEN",
+                hit: "Hit",
+                stand: "Stand",
+                bet: "Bet",
+                playAgain: "Play Again",
                 youWon: "You won!",
-                youGot: "You got!",
+                youLost: "You lost!",
+                youTied: "Push!",
+                blackjack: "Blackjack!",
+                bust: "Bust!",
+                dealerBust: "Dealer bust!",
                 points: "points",
-                yuan: "yuan"
+                yuan: "¥"
             },
             es: {
                 welcome: "Bienvenido a Physical Physics",
@@ -1448,7 +1549,7 @@
                 step2: "Toca en cualquier lugar del lienzo para colocar tu forma seleccionada",
                 step3: "Mantén presionado objetos para entrar en modo de edición",
                 step4: "Selecciona el icono de basura para eliminar objetos",
-                step5: "Usa el botón de menú para acceder a la ruleta y tienda",
+                step5: "Usa el botón de menú para acceder al blackjack y tienda",
                 skip: "Saltar",
                 continue: "Continuar",
                 loading: "Cargando Physical Physics",
@@ -1467,17 +1568,23 @@
                 sceneSaved: "Escena guardada con éxito!",
                 sceneLoaded: "Escena cargada con éxito!",
                 loadError: "Error al cargar escena",
-                rouletteTitle: "Ruleta",
+                blackjackTitle: "Blackjack",
                 lootboxTitle: "Caja de Botín",
                 shopTitle: "Tienda de Formas",
                 shopBalance: "Tu saldo:",
                 shopClose: "Cerrar",
-                spin: "GIRAR",
-                open: "ABRIR",
+                hit: "Pedir",
+                stand: "Plantarse",
+                bet: "Apostar",
+                playAgain: "Jugar de nuevo",
                 youWon: "¡Ganaste!",
-                youGot: "¡Obtuviste!",
+                youLost: "¡Perdiste!",
+                youTied: "¡Empate!",
+                blackjack: "¡Blackjack!",
+                bust: "¡Te pasaste!",
+                dealerBust: "¡El dealer se pasó!",
                 points: "puntos",
-                yuan: "yuanes"
+                yuan: "¥"
             },
             fr: {
                 welcome: "Bienvenue dans Physical Physics",
@@ -1488,7 +1595,7 @@
                 step2: "Appuyez n'importe où sur le canevas pour placer votre forme sélectionnée",
                 step3: "Appuyez longuement sur les objets pour entrer en mode édition",
                 step4: "Selecciona el icono poubelle pour supprimer des objets",
-                step5: "Utilisez le bouton de menu pour accéder à la roulette et au magasin",
+                step5: "Utilisez le bouton de menu pour accéder au blackjack et au magasin",
                 skip: "Passer",
                 continue: "Continuer",
                 loading: "Chargement de Physical Physics",
@@ -1507,17 +1614,23 @@
                 sceneSaved: "Scène sauvegardée avec succès!",
                 sceneLoaded: "Scène chargée avec succès!",
                 loadError: "Erreur lors du chargement de la scène",
-                rouletteTitle: "Roulette",
+                blackjackTitle: "Blackjack",
                 lootboxTitle: "Boîte à Butin",
                 shopTitle: "Boutique de Formes",
                 shopBalance: "Votre solde:",
                 shopClose: "Fermer",
-                spin: "TOURNER",
-                open: "OUVRIR",
+                hit: "Tirer",
+                stand: "Rester",
+                bet: "Parier",
+                playAgain: "Rejouer",
                 youWon: "Vous avez gagné!",
-                youGot: "Vous avez obtenu!",
+                youLost: "Vous avez perdu!",
+                youTied: "Égalité!",
+                blackjack: "Blackjack!",
+                bust: "Bust!",
+                dealerBust: "Le croupier a bust!",
                 points: "points",
-                yuan: "yuans"
+                yuan: "¥"
             },
             de: {
                 welcome: "Willkommen bei Physical Physics",
@@ -1528,7 +1641,7 @@
                 step2: "Tippen Sie auf die Leinwand, um Ihre ausgewählte Form zu platzieren",
                 step3: "Halten Sie Objekte gedrückt, um den Bearbeitungsmodus zu aktivieren",
                 step4: "Wählen Sie das Mülleimer-Symbol aus, um Objekte zu löschen",
-                step5: "Verwenden Sie die Menütaste, um auf das Roulette und den Shop zuzugreifen",
+                step5: "Verwenden Sie die Menütaste, um auf Blackjack und Shop zuzugreifen",
                 skip: "Überspringen",
                 continue: "Weiter",
                 loading: "Lade Physical Physics",
@@ -1547,17 +1660,23 @@
                 sceneSaved: "Szene erfolgreich gespeichert!",
                 sceneLoaded: "Szene erfolgreich geladen!",
                 loadError: "Fehler beim Laden der Szene",
-                rouletteTitle: "Roulette",
+                blackjackTitle: "Blackjack",
                 lootboxTitle: "Lootbox",
                 shopTitle: "Formen-Shop",
                 shopBalance: "Ihr Guthaben:",
                 shopClose: "Schließen",
-                spin: "DREHEN",
-                open: "ÖFFNEN",
+                hit: "Hit",
+                stand: "Stand",
+                bet: "Wette",
+                playAgain: "Nochmal spielen",
                 youWon: "Sie haben gewonnen!",
-                youGot: "Sie haben erhalten!",
+                youLost: "Sie haben verloren!",
+                youTied: "Unentschieden!",
+                blackjack: "Blackjack!",
+                bust: "Bust!",
+                dealerBust: "Dealer bust!",
                 points: "Punkte",
-                yuan: "Yuan"
+                yuan: "¥"
             },
             ja: {
                 welcome: "Physical Physicsへようこそ",
@@ -1568,7 +1687,7 @@
                 step2: "キャンバスをタップして選択した形状を配置",
                 step3: "オブジェクトを長押しして編集モードに入る",
                 step4: "ゴミ箱アイコンを選択してオブジェクトを削除",
-                step5: "メニューボタンからルーレットとショップにアクセス",
+                step5: "メニューボタンからブラックジャックとショップにアクセス",
                 skip: "スキップ",
                 continue: "続ける",
                 loading: "Physical Physicsを読み込み中",
@@ -1587,17 +1706,23 @@
                 sceneSaved: "シーンを保存しました!",
                 sceneLoaded: "シーンを読み込みました!",
                 loadError: "シーンの読み込みエラー",
-                rouletteTitle: "ルーレット",
+                blackjackTitle: "ブラックジャック",
                 lootboxTitle: "ルートボックス",
                 shopTitle: "形状ショップ",
                 shopBalance: "残高:",
                 shopClose: "閉じる",
-                spin: "スピン",
-                open: "開く",
-                youWon: "当たりました!",
-                youGot: "獲得しました!",
+                hit: "ヒット",
+                stand: "スタンド",
+                bet: "ベット",
+                playAgain: "もう一度プレイ",
+                youWon: "勝ちました!",
+                youLost: "負けました!",
+                youTied: "引き分け!",
+                blackjack: "ブラックジャック!",
+                bust: "バスト!",
+                dealerBust: "ディーラーバスト!",
                 points: "ポイント",
-                yuan: "元"
+                yuan: "¥"
             },
             ko: {
                 welcome: "Physical Physics에 오신 것을 환영합니다",
@@ -1608,7 +1733,7 @@
                 step2: "캔버스 아무 곳이나 탭하여 선택한 모양을 배치하세요",
                 step3: "객체를 길게 눌러 편집 모드로 들어가세요",
                 step4: "휴지통 아이콘을 선택하여 객체를 삭제하세요",
-                step5: "메뉴 버튼에서 룰렛과 상점에 액세스하세요",
+                step5: "메뉴 버튼에서 블랙잭과 상점에 액세스하세요",
                 skip: "건너뛰기",
                 continue: "계속",
                 loading: "Physical Physics 로드 중",
@@ -1627,17 +1752,23 @@
                 sceneSaved: "씬 저장 성공!",
                 sceneLoaded: "씬 불러오기 성공!",
                 loadError: "씬 불러오기 오류",
-                rouletteTitle: "룰렛",
+                blackjackTitle: "블랙잭",
                 lootboxTitle: "루트 박스",
                 shopTitle: "모양 상점",
                 shopBalance: "잔액:",
                 shopClose: "닫기",
-                spin: "회전",
-                open: "열기",
-                youWon: "당첨되었습니다!",
-                youGot: "획득했습니다!",
+                hit: "히트",
+                stand: "스탠드",
+                bet: "베팅",
+                playAgain: "다시 플레이",
+                youWon: "당신이 이겼습니다!",
+                youLost: "당신이 졌습니다!",
+                youTied: "무승부!",
+                blackjack: "블랙잭!",
+                bust: "버스트!",
+                dealerBust: "딜러 버스트!",
                 points: "포인트",
-                yuan: "위안"
+                yuan: "¥"
             },
             tl: {
                 welcome: "Maligayang pagdating sa Physical Physics",
@@ -1648,7 +1779,7 @@
                 step2: "I-tap kahit saan sa canvas para ilagay ang napiling hugis",
                 step3: "Pindutin ng matagas ang mga bagay para mag-edit",
                 step4: "Piliin ang trash icon para burahin ang mga bagay",
-                step5: "Gamitin ang menu button para ma-access ang roulette at shop",
+                step5: "Gamitin ang menu button para ma-access ang blackjack at shop",
                 skip: "Laktawan",
                 continue: "Magpatuloy",
                 loading: "Naglo-load ng Physical Physics",
@@ -1667,17 +1798,23 @@
                 sceneSaved: "Tagumpay na na-save ang scene!",
                 sceneLoaded: "Tagumpay na na-load ang scene!",
                 loadError: "Error sa pag-load ng scene",
-                rouletteTitle: "Ruleta",
+                blackjackTitle: "Blackjack",
                 lootboxTitle: "Loot Box",
                 shopTitle: "Shop ng Hugis",
                 shopBalance: "Iyong balanse:",
                 shopClose: "Isara",
-                spin: "IKOT",
-                open: "BUKSAN",
+                hit: "Hit",
+                stand: "Stand",
+                bet: "Bet",
+                playAgain: "Laro muli",
                 youWon: "Nanalo ka!",
-                youGot: "Nakuha mo!",
+                youLost: "Natalo ka!",
+                youTied: "Tabla!",
+                blackjack: "Blackjack!",
+                bust: "Bust!",
+                dealerBust: "Dealer bust!",
                 points: "puntos",
-                yuan: "yuan"
+                yuan: "¥"
             },
             sv: {
                 welcome: "Välkommen till Physical Physics",
@@ -1688,7 +1825,7 @@
                 step2: "Tryck var som helst på duken för att placera din valda form",
                 step3: "Håll ner objekt för att gå in i redigeringsläge",
                 step4: "Välj papperskorgsikonen för att ta bort objekt",
-                step5: "Använd menyknappen för att komma åt roulette och butik",
+                step5: "Använd menyknappen för att komma åt blackjack och butik",
                 skip: "Hoppa över",
                 continue: "Fortsätt",
                 loading: "Laddar Physical Physics",
@@ -1707,17 +1844,23 @@
                 sceneSaved: "Scen sparad framgångsrikt!",
                 sceneLoaded: "Scen laddad framgångsrikt!",
                 loadError: "Fel vid laddning av scen",
-                rouletteTitle: "Roulette",
+                blackjackTitle: "Blackjack",
                 lootboxTitle: "Lootbox",
                 shopTitle: "Formbutik",
                 shopBalance: "Ditt saldo:",
                 shopClose: "Stäng",
-                spin: "SNURRA",
-                open: "ÖPPNA",
+                hit: "Hit",
+                stand: "Stand",
+                bet: "Bet",
+                playAgain: "Spela igen",
                 youWon: "Du vann!",
-                youGot: "Du fick!",
+                youLost: "Du förlorade!",
+                youTied: "Oavgjort!",
+                blackjack: "Blackjack!",
+                bust: "Bust!",
+                dealerBust: "Dealer bust!",
                 points: "poäng",
-                yuan: "yuan"
+                yuan: "¥"
             }
         };
 
@@ -1824,9 +1967,11 @@
                     document.getElementById('saveBtn').textContent = t.save;
                     document.getElementById('loadBtn').textContent = t.load;
                     
-                    // Roulette
-                    document.getElementById('spinRoulette').textContent = t.spin;
-                    document.getElementById('rouletteResultTitle').textContent = t.youWon;
+                    // Blackjack
+                    document.getElementById('hitBtn').textContent = t.hit;
+                    document.getElementById('standBtn').textContent = t.stand;
+                    document.getElementById('betBtn').textContent = t.bet;
+                    document.getElementById('blackjackPlayAgainBtn').textContent = t.playAgain;
                     
                     // Loot Box
                     document.getElementById('lootboxResultTitle').textContent = t.youGot;
@@ -1876,7 +2021,7 @@
                                     initDock();
                                     initTooltips();
                                     initEditControls();
-                                    initRouletteSystem();
+                                    initBlackjackSystem();
                                     initLootboxSystem();
                                     initShopSystem();
                                     initPauseSystem();
@@ -1917,7 +2062,7 @@
                                         initDock();
                                         initTooltips();
                                         initEditControls();
-                                        initRouletteSystem();
+                                        initBlackjackSystem();
                                         initLootboxSystem();
                                         initShopSystem();
                                         initPauseSystem();
@@ -2748,24 +2893,24 @@
             }
         }
 
-        // Initialize Roulette System
-        function initRouletteSystem() {
+        // Initialize Blackjack System
+        function initBlackjackSystem() {
             try {
                 const menuButton = document.getElementById('menuButton');
                 const menuOptions = document.getElementById('menuOptions');
-                const rouletteBtn = document.getElementById('rouletteBtn');
-                const rouletteContainer = document.getElementById('rouletteContainer');
-                const spinRoulette = document.getElementById('spinRoulette');
-                const rouletteResult = document.getElementById('rouletteResult');
-                const rouletteCloseBtn = document.getElementById('rouletteCloseBtn');
+                const blackjackBtn = document.getElementById('blackjackBtn');
+                const blackjackContainer = document.getElementById('blackjackContainer');
+                const hitBtn = document.getElementById('hitBtn');
+                const standBtn = document.getElementById('standBtn');
+                const betBtn = document.getElementById('betBtn');
+                const playAgainBtn = document.getElementById('blackjackPlayAgainBtn');
+                const blackjackCloseBtn = document.getElementById('blackjackCloseBtn');
+                const betControls = document.getElementById('blackjackBetControls');
                 
-                if (!menuButton || !menuOptions || !rouletteBtn || !rouletteContainer || 
-                    !spinRoulette || !rouletteResult || !rouletteCloseBtn) {
-                    throw new Error("Roulette elements not found");
+                if (!menuButton || !menuOptions || !blackjackBtn || !blackjackContainer || 
+                    !hitBtn || !standBtn || !betBtn || !playAgainBtn || !blackjackCloseBtn || !betControls) {
+                    throw new Error("Blackjack elements not found");
                 }
-                
-                // Create roulette sections
-                createRouletteSections();
                 
                 // Toggle menu options
                 menuButton.addEventListener('click', (e) => {
@@ -2773,19 +2918,32 @@
                     menuOptions.style.display = menuOptions.style.display === 'flex' ? 'none' : 'flex';
                 });
                 
-                // Roulette button
-                rouletteBtn.addEventListener('click', () => {
+                // Blackjack button
+                blackjackBtn.addEventListener('click', () => {
                     menuOptions.style.display = 'none';
-                    rouletteContainer.style.display = 'flex';
-                    rouletteResult.style.display = 'none';
+                    blackjackContainer.style.display = 'flex';
+                    startBlackjackGame();
                 });
                 
-                // Spin roulette
-                spinRoulette.addEventListener('click', spinRouletteWheel);
+                // Game buttons
+                hitBtn.addEventListener('click', hit);
+                standBtn.addEventListener('click', stand);
+                betBtn.addEventListener('click', placeBet);
+                playAgainBtn.addEventListener('click', startBlackjackGame);
                 
-                // Close roulette
-                rouletteCloseBtn.addEventListener('click', () => {
-                    rouletteContainer.style.display = 'none';
+                // Close blackjack
+                blackjackCloseBtn.addEventListener('click', () => {
+                    blackjackContainer.style.display = 'none';
+                });
+                
+                // Bet controls
+                betControls.querySelectorAll('.blackjack-bet-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        betControls.querySelectorAll('.blackjack-bet-btn').forEach(b => 
+                            b.classList.remove('active'));
+                        btn.classList.add('active');
+                        blackjackGame.currentBet = parseInt(btn.dataset.bet);
+                    });
                 });
                 
                 // Close menu when clicking outside
@@ -2795,143 +2953,313 @@
                     }
                 });
             } catch (error) {
-                console.error("Roulette system initialization error:", error);
+                console.error("Blackjack system initialization error:", error);
             }
         }
         
-        function createRouletteSections() {
+        function startBlackjackGame() {
             try {
-                const rouletteWheel = document.getElementById('rouletteWheel');
-                if (!rouletteWheel) return;
+                const t = translations[selectedLanguage] || translations.en;
                 
-                // Clear existing sections
-                while (rouletteWheel.children.length > 2) {
-                    rouletteWheel.removeChild(rouletteWheel.lastChild);
+                // Reset game state
+                blackjackGame.deck = createDeck();
+                blackjackGame.dealerHand = [];
+                blackjackGame.playerHand = [];
+                blackjackGame.gameState = 'betting';
+                
+                // Update UI
+                document.getElementById('blackjackResult').style.display = 'none';
+                document.getElementById('gameButtons').style.display = 'flex';
+                document.getElementById('betBtn').style.display = 'block';
+                document.getElementById('hitBtn').style.display = 'none';
+                document.getElementById('standBtn').style.display = 'none';
+                
+                // Clear cards
+                document.getElementById('dealerCards').innerHTML = '<div class="blackjack-card">?</div>';
+                document.getElementById('playerCards').innerHTML = '';
+                document.getElementById('dealerScore').textContent = `${t.dealer}: ?`;
+                document.getElementById('playerScore').textContent = `${t.player}: 0`;
+                
+                // Update balance display
+                document.getElementById('blackjackBalance').textContent = `${yuan} ${t.yuan}`;
+            } catch (error) {
+                console.error("Error starting blackjack game:", error);
+            }
+        }
+        
+        function createDeck() {
+            try {
+                const suits = ['♠', '♥', '♦', '♣'];
+                const values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+                const deck = [];
+                
+                // Create a standard deck of 52 cards
+                for (let suit of suits) {
+                    for (let value of values) {
+                        deck.push({ suit, value });
+                    }
                 }
                 
-                // Roulette sections with different rewards
-                const sections = [
-                    { color: '#FF3B30', reward: 50, text: '50 points' },
-                    { color: '#007AFF', reward: 100, text: '100 points' },
-                    { color: '#34C759', reward: 150, text: '150 points' },
-                    { color: '#FF9500', reward: 200, text: '200 points' },
-                    { color: '#5856D6', reward: 10, text: '10 yuan' },
-                    { color: '#FF2D55', reward: 20, text: '20 yuan' },
-                    { color: '#FFCC00', reward: 5, text: '5 yuan' },
-                    { color: '#5AC8FA', reward: 50, text: '50 points' }
-                ];
+                // Shuffle the deck
+                for (let i = deck.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [deck[i], deck[j]] = [deck[j], deck[i]];
+                }
                 
-                // Create sections
-                sections.forEach((section, i) => {
-                    const sectionEl = document.createElement('div');
-                    sectionEl.className = 'roulette-section';
-                    sectionEl.style.transform = `rotate(${i * (360 / sections.length)}deg)`;
-                    sectionEl.style.background = section.color;
-                    
-                    const textEl = document.createElement('div');
-                    textEl.textContent = section.text;
-                    textEl.style.transform = `rotate(${45}deg)`;
-                    textEl.style.fontSize = '12px';
-                    
-                    sectionEl.appendChild(textEl);
-                    rouletteWheel.insertBefore(sectionEl, rouletteWheel.lastChild);
-                });
+                return deck;
             } catch (error) {
-                console.error("Error creating roulette sections:", error);
+                console.error("Error creating deck:", error);
+                return [];
             }
         }
         
-        function spinRouletteWheel() {
+        function placeBet() {
             try {
-                const spinRoulette = document.getElementById('spinRoulette');
-                const rouletteWheel = document.getElementById('rouletteWheel');
-                const rouletteResult = document.getElementById('rouletteResult');
-                const resultTitle = document.getElementById('rouletteResultTitle');
-                const resultText = document.getElementById('rouletteResultText');
+                const t = translations[selectedLanguage] || translations.en;
                 
-                if (!spinRoulette || !rouletteWheel || !rouletteResult) return;
+                if (blackjackGame.currentBet <= 0) {
+                    showNotification(t.placeBetFirst || "Please place a bet first", true);
+                    return;
+                }
                 
-                // Disable button during spin
-                spinRoulette.style.pointerEvents = 'none';
-                spinRoulette.textContent = '...';
+                if (blackjackGame.currentBet > yuan) {
+                    showNotification(t.notEnoughYuan || "Not enough ¥", true);
+                    return;
+                }
                 
-                // Highlight the wheel
-                rouletteWheel.style.boxShadow = '0 0 30px rgba(255, 215, 0, 0.7)';
+                // Deduct bet from balance
+                yuan -= blackjackGame.currentBet;
+                document.getElementById('blackjackBalance').textContent = `${yuan} ${t.yuan}`;
                 
-                // Random spin duration and rotation
-                const spinDuration = 3000 + Math.random() * 2000; // 3-5 seconds
-                const rotations = 5 + Math.random() * 3; // 5-8 full rotations
-                const finalRotation = 360 * rotations + Math.floor(Math.random() * 360);
+                // Change game state
+                blackjackGame.gameState = 'playing';
                 
-                // Apply spin animation
-                rouletteWheel.style.transition = `transform ${spinDuration}ms cubic-bezier(0.17, 0.67, 0.21, 0.99)`;
-                rouletteWheel.style.transform = `rotate(${-finalRotation}deg)`;
+                // Deal initial cards
+                dealInitialCards();
                 
-                // Determine result after spin
-                setTimeout(() => {
-                    // Calculate which section is at the top
-                    const sectionAngle = 360 - (finalRotation % 360);
-                    const sectionIndex = Math.floor(sectionAngle / (360 / 8));
-                    
-                    // Get the reward
-                    let reward;
-                    let rewardType;
-                    let rewardText;
-                    
-                    switch(sectionIndex) {
-                        case 0: reward = 50; rewardType = 'points'; rewardText = '50 points'; break;
-                        case 1: reward = 100; rewardType = 'points'; rewardText = '100 points'; break;
-                        case 2: reward = 150; rewardType = 'points'; rewardText = '150 points'; break;
-                        case 3: reward = 200; rewardType = 'points'; rewardText = '200 points'; break;
-                        case 4: reward = 10; rewardType = 'yuan'; rewardText = '10 yuan'; break;
-                        case 5: reward = 20; rewardType = 'yuan'; rewardText = '20 yuan'; break;
-                        case 6: reward = 5; rewardType = 'yuan'; rewardText = '5 yuan'; break;
-                        case 7: reward = 50; rewardType = 'points'; rewardText = '50 points'; break;
-                    }
-                    
-                    // Highlight the winning section
-                    const sections = document.querySelectorAll('.roulette-section');
-                    sections[sectionIndex].classList.add('highlight');
-                    
-                    // Apply reward
-                    if (rewardType === 'points') {
-                        points += reward;
+                // Update UI
+                document.getElementById('betBtn').style.display = 'none';
+                document.getElementById('hitBtn').style.display = 'block';
+                document.getElementById('standBtn').style.display = 'block';
+            } catch (error) {
+                console.error("Error placing bet:", error);
+            }
+        }
+        
+        function dealInitialCards() {
+            try {
+                const t = translations[selectedLanguage] || translations.en;
+                
+                // Deal two cards to player and dealer
+                blackjackGame.playerHand = [drawCard(), drawCard()];
+                blackjackGame.dealerHand = [drawCard(), drawCard()];
+                
+                // Update UI
+                updateHandUI('player');
+                updateHandUI('dealer', true); // Hide dealer's second card
+                
+                // Check for blackjack
+                if (calculateHandValue(blackjackGame.playerHand) === 21) {
+                    endGame('blackjack');
+                }
+            } catch (error) {
+                console.error("Error dealing initial cards:", error);
+            }
+        }
+        
+        function drawCard() {
+            try {
+                if (blackjackGame.deck.length === 0) {
+                    blackjackGame.deck = createDeck(); // Reshuffle if deck is empty
+                }
+                return blackjackGame.deck.pop();
+            } catch (error) {
+                console.error("Error drawing card:", error);
+                return { suit: '♠', value: 'A' }; // Return ace of spades as fallback
+            }
+        }
+        
+        function updateHandUI(who, hideSecondCard = false) {
+            try {
+                const t = translations[selectedLanguage] || translations.en;
+                const hand = who === 'player' ? blackjackGame.playerHand : blackjackGame.dealerHand;
+                const container = document.getElementById(`${who}Cards`);
+                const scoreElement = document.getElementById(`${who}Score`);
+                
+                // Clear container
+                container.innerHTML = '';
+                
+                // Add cards to UI
+                hand.forEach((card, index) => {
+                    if (hideSecondCard && index === 1 && who === 'dealer') {
+                        // Hide dealer's second card during play
+                        container.innerHTML += '<div class="blackjack-card">?</div>';
                     } else {
-                        yuan += reward;
+                        const isRed = card.suit === '♥' || card.suit === '♦';
+                        container.innerHTML += `<div class="blackjack-card ${isRed ? 'red' : ''}">${card.value}${card.suit}</div>`;
                     }
-                    
-                    // Show result
-                    resultText.textContent = rewardText;
-                    rouletteResult.style.display = 'flex';
-                    
-                    // Play sound and particles
+                });
+                
+                // Update score display
+                if (who === 'player' || !hideSecondCard) {
+                    const value = calculateHandValue(hand);
+                    scoreElement.textContent = `${who === 'player' ? t.player : t.dealer}: ${hideSecondCard ? '?' : value}`;
+                }
+            } catch (error) {
+                console.error("Error updating hand UI:", error);
+            }
+        }
+        
+        function calculateHandValue(hand) {
+            try {
+                let value = 0;
+                let aces = 0;
+                
+                for (let card of hand) {
+                    if (card.value === 'A') {
+                        aces++;
+                        value += 11;
+                    } else if (['K', 'Q', 'J'].includes(card.value)) {
+                        value += 10;
+                    } else {
+                        value += parseInt(card.value);
+                    }
+                }
+                
+                // Adjust for aces if value is over 21
+                while (value > 21 && aces > 0) {
+                    value -= 10;
+                    aces--;
+                }
+                
+                return value;
+            } catch (error) {
+                console.error("Error calculating hand value:", error);
+                return 0;
+            }
+        }
+        
+        function hit() {
+            try {
+                const t = translations[selectedLanguage] || translations.en;
+                
+                if (blackjackGame.gameState !== 'playing') return;
+                
+                // Draw a card for player
+                blackjackGame.playerHand.push(drawCard());
+                updateHandUI('player');
+                
+                // Check if player busts
+                const playerValue = calculateHandValue(blackjackGame.playerHand);
+                if (playerValue > 21) {
+                    endGame('bust');
+                }
+            } catch (error) {
+                console.error("Error on hit:", error);
+            }
+        }
+        
+        function stand() {
+            try {
+                const t = translations[selectedLanguage] || translations.en;
+                
+                if (blackjackGame.gameState !== 'playing') return;
+                
+                // Dealer draws until hand value is at least 17
+                while (calculateHandValue(blackjackGame.dealerHand) < 17) {
+                    blackjackGame.dealerHand.push(drawCard());
+                }
+                
+                // Show dealer's full hand
+                updateHandUI('dealer');
+                
+                // Determine winner
+                const playerValue = calculateHandValue(blackjackGame.playerHand);
+                const dealerValue = calculateHandValue(blackjackGame.dealerHand);
+                
+                if (dealerValue > 21) {
+                    endGame('dealerBust');
+                } else if (dealerValue > playerValue) {
+                    endGame('lose');
+                } else if (dealerValue < playerValue) {
+                    endGame('win');
+                } else {
+                    endGame('push');
+                }
+            } catch (error) {
+                console.error("Error on stand:", error);
+            }
+        }
+        
+        function endGame(result) {
+            try {
+                const t = translations[selectedLanguage] || translations.en;
+                blackjackGame.gameState = 'ended';
+                
+                // Show dealer's full hand
+                updateHandUI('dealer');
+                
+                // Hide game buttons
+                document.getElementById('gameButtons').style.display = 'none';
+                
+                // Show result
+                const resultElement = document.getElementById('blackjackResult');
+                const resultTitle = document.getElementById('blackjackResultTitle');
+                const resultText = document.getElementById('blackjackResultText');
+                
+                resultElement.style.display = 'block';
+                
+                let winAmount = 0;
+                
+                switch(result) {
+                    case 'blackjack':
+                        winAmount = Math.floor(blackjackGame.currentBet * 2.5);
+                        yuan += winAmount;
+                        resultTitle.textContent = t.blackjack;
+                        resultText.textContent = `${t.youWon} ${winAmount} ${t.yuan}!`;
+                        break;
+                    case 'win':
+                        winAmount = blackjackGame.currentBet * 2;
+                        yuan += winAmount;
+                        resultTitle.textContent = t.youWon;
+                        resultText.textContent = `${t.youWon} ${winAmount} ${t.yuan}!`;
+                        break;
+                    case 'lose':
+                        resultTitle.textContent = t.youLost;
+                        resultText.textContent = t.youLost;
+                        break;
+                    case 'push':
+                        yuan += blackjackGame.currentBet;
+                        resultTitle.textContent = t.youTied;
+                        resultText.textContent = t.youTied;
+                        break;
+                    case 'bust':
+                        resultTitle.textContent = t.bust;
+                        resultText.textContent = t.youLost;
+                        break;
+                    case 'dealerBust':
+                        winAmount = blackjackGame.currentBet * 2;
+                        yuan += winAmount;
+                        resultTitle.textContent = t.dealerBust;
+                        resultText.textContent = `${t.youWon} ${winAmount} ${t.yuan}!`;
+                        break;
+                }
+                
+                // Update balance display
+                document.getElementById('blackjackBalance').textContent = `${yuan} ${t.yuan}`;
+                
+                // Play sound and particles
+                if (result === 'blackjack' || result === 'win' || result === 'dealerBust') {
                     audio.play('success');
                     spawnParticles(
-                        rouletteWheel.offsetLeft + rouletteWheel.offsetWidth / 2,
-                        rouletteWheel.offsetTop + rouletteWheel.offsetHeight / 2,
+                        resultElement.offsetLeft + resultElement.offsetWidth / 2,
+                        resultElement.offsetTop + resultElement.offsetHeight / 2,
                         '#FFD700',
                         20
                     );
-                    
-                    // Reset wheel
-                    setTimeout(() => {
-                        sections[sectionIndex].classList.remove('highlight');
-                        rouletteWheel.style.transition = 'none';
-                        rouletteWheel.style.transform = 'rotate(0deg)';
-                        rouletteWheel.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.5)';
-                        setTimeout(() => {
-                            spinRoulette.style.pointerEvents = 'auto';
-                            spinRoulette.textContent = translations[selectedLanguage]?.spin || 'SPIN';
-                        }, 50);
-                    }, 2000);
-                }, spinDuration);
-            } catch (error) {
-                console.error("Error spinning roulette:", error);
-                const spinRoulette = document.getElementById('spinRoulette');
-                if (spinRoulette) {
-                    spinRoulette.style.pointerEvents = 'auto';
-                    spinRoulette.textContent = translations[selectedLanguage]?.spin || 'SPIN';
                 }
+            } catch (error) {
+                console.error("Error ending game:", error);
             }
         }
 
@@ -2999,7 +3327,7 @@
                         { type: 'skin', shape: 'triangle', skin: 'crystal', text: 'Crystal Triangle Skin' },
                         { type: 'skin', shape: 'hexagon', skin: 'neon', text: 'Neon Hexagon Skin' },
                         { type: 'points', amount: 100, text: '100 points' },
-                        { type: 'yuan', amount: 10, text: '10 yuan' }
+                        { type: 'yuan', amount: 10, text: '10 ¥' }
                     ];
                     
                     const reward = possibleRewards[Math.floor(Math.random() * possibleRewards.length)];
@@ -3099,7 +3427,7 @@
                     shopItem.innerHTML = `
                         <div class="shop-item-icon">${item.icon}</div>
                         <div class="shop-item-name">${item.name}</div>
-                        <div class="shop-item-price">${item.price} ${translations[selectedLanguage]?.yuan || 'yuan'}</div>
+                        <div class="shop-item-price">${item.price} ${translations[selectedLanguage]?.yuan || '¥'}</div>
                     `;
                     
                     if (isUnlocked) {
@@ -3123,7 +3451,7 @@
                                     10
                                 );
                             } else {
-                                showNotification("Not enough yuan!", true);
+                                showNotification("Not enough ¥!", true);
                             }
                         });
                     }
@@ -3139,7 +3467,7 @@
             try {
                 const shopBalance = document.getElementById('shopBalance');
                 if (shopBalance) {
-                    shopBalance.textContent = `${yuan} ${translations[selectedLanguage]?.yuan || 'yuan'}`;
+                    shopBalance.textContent = `${yuan} ${translations[selectedLanguage]?.yuan || '¥'}`;
                 }
             } catch (error) {
                 console.error("Error updating shop balance:", error);
