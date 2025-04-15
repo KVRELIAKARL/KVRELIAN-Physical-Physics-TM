@@ -1113,6 +1113,12 @@
                 height: 36px;
             }
             
+            .menu-options {
+                top: 60px;
+                left: 10px;
+                width: 180px;
+            }
+            
             .edit-controls {
                 bottom: 80px;
                 width: 90%;
@@ -1167,6 +1173,11 @@
             
             .menu-button {
                 top: 10px;
+                left: 10px;
+            }
+            
+            .menu-options {
+                top: 60px;
                 left: 10px;
             }
             
@@ -2942,10 +2953,19 @@
                     throw new Error("Blackjack elements not found");
                 }
                 
-                // Toggle menu options
-                menuButton.addEventListener('click', (e) => {
-                    e.stopPropagation();
+                // Enhanced menu toggle for Mac and other platforms
+                const toggleMenu = (e) => {
+                    if (e) e.stopPropagation();
                     menuOptions.style.display = menuOptions.style.display === 'flex' ? 'none' : 'flex';
+                };
+                
+                // Click handler
+                menuButton.addEventListener('click', toggleMenu);
+                
+                // Touch handler for mobile
+                menuButton.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    toggleMenu(e);
                 });
                 
                 // Blackjack button
@@ -2976,11 +2996,23 @@
                     });
                 });
                 
-                // Close menu when clicking outside
+                // Close menu when clicking outside (for all platforms)
                 document.addEventListener('click', (e) => {
                     if (!menuOptions.contains(e.target) && e.target !== menuButton) {
                         menuOptions.style.display = 'none';
                     }
+                });
+                
+                // Touch event for closing menu
+                document.addEventListener('touchstart', (e) => {
+                    if (!menuOptions.contains(e.target) && e.target !== menuButton) {
+                        menuOptions.style.display = 'none';
+                    }
+                });
+                
+                // Prevent menu from closing when clicking inside it
+                menuOptions.addEventListener('click', (e) => {
+                    e.stopPropagation();
                 });
             } catch (error) {
                 console.error("Blackjack system initialization error:", error);
